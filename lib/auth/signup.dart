@@ -11,6 +11,7 @@ class SignUp extends StatefulWidget {
 
 class _LoginScreenState extends State<SignUp> {
   final _formKey = GlobalKey<FormBuilderState>();
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,24 @@ class _LoginScreenState extends State<SignUp> {
                   child: FormBuilder(
                     key: _formKey,
                     child: FormBuilderTextField(
+                      name: 'Name',
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        hintText: "Enter your name",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                        ),
+                        prefixIcon: Icon(Icons.people),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 58,
+                  child: FormBuilder(
+                    child: FormBuilderTextField(
                       name: 'Email',
                       decoration: const InputDecoration(
                         labelText: 'Email',
@@ -64,16 +83,24 @@ class _LoginScreenState extends State<SignUp> {
                   height: 58,
                   child: FormBuilderTextField(
                     name: 'Password',
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      hintText: "Enter the password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(18)),
-                      ),
-                      prefixIcon: Icon(Icons.lock),
-                    ),
+                    decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: "Enter the password",
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                        ),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(_isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off))),
                     keyboardType: TextInputType.text,
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible,
                   ),
                 ),
                 const SizedBox(height: 30),
