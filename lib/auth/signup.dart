@@ -28,7 +28,7 @@ class _LoginScreenState extends State<SignUp> {
                 SizedBox(
                   height: 240,
                   width: 240,
-                  child: Image.asset("assets/login.png"),
+                  child: Image.asset("assets/signup.png"),
                 ),
                 const SizedBox(height: 25),
                 const Text(

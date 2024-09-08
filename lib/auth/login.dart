@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_quiz_app/auth/signup.dart';
+import 'package:online_quiz_app/dashboard/dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+                      builder: (context) => const Dashboard(),
                     ));
                   },
                   child: const SizedBox(

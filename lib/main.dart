@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_quiz_app/auth/Login.dart';
 import 'package:online_quiz_app/auth/Welcome.dart';
+import 'package:online_quiz_app/constant.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '$appName',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
