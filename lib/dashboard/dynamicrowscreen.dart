@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_quiz_app/constant.dart';
+import 'package:online_quiz_app/quiz/quizhome.dart';
 
 class DynamicRowScreen extends StatelessWidget {
   // List of objects with image URL, name, and description
@@ -98,42 +99,50 @@ class DynamicRowScreen extends StatelessWidget {
                       flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          color: quizback,
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 10),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                child: Text(
-                                  'C$chapterNumber', // Dynamic chapter number
-                                  style: const TextStyle(
-                                      color: quiztite,
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.bold),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => QuizHome(),
+                            ));
+                          },
+                          child: Container(
+                            color: quizback,
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 10),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Text(
+                                    'C$chapterNumber', // Dynamic chapter number
+                                    style: const TextStyle(
+                                        color: quiztite,
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                item['name']!, // Name from list
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: quizhead,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 2),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Text(
-                                  item['desc']!, // Description from list
+                                const SizedBox(height: 8),
+                                Text(
+                                  item['name']!, // Name from list
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 14, color: quizdesc),
+                                      color: quizhead,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 2),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Text(
+                                    item['desc']!, // Description from list
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: quizdesc),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
