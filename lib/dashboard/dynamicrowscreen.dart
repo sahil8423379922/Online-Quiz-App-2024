@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:online_quiz_app/constant.dart';
 import 'package:online_quiz_app/quiz/quizhome.dart';
 
-class DynamicRowScreen extends StatelessWidget {
+class DynamicRowScreen extends StatefulWidget {
+  final subscription;
+  final user;
+  const DynamicRowScreen({super.key, this.subscription, this.user});
+
+  @override
+  State<DynamicRowScreen> createState() => _DynamicRowScreenState();
+}
+
+class _DynamicRowScreenState extends State<DynamicRowScreen> {
   // List of objects with image URL, name, and description
-  final List<Map<String, String>> items = [
+  final List<Map<String, String>> paidpayload = [
     {
       'image': 'assets/docs.png',
       'name': 'Chapter 1',
@@ -65,8 +74,34 @@ class DynamicRowScreen extends StatelessWidget {
       'name': 'Chapter 12',
       'desc': 'Introduction',
     },
+  ];
+  final List<Map<String, String>> freepayload = [
+    {
+      'image': 'assets/docs.png',
+      'name': 'Chapter 1',
+      'desc': 'Introduction',
+    },
+    {
+      'image': 'assets/docs.png',
+      'name': 'Chapter 2',
+      'desc': 'Introduction',
+    },
+  ];
+
+  List<Map<String, String>> items = [
     // Add more chapters as needed
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.subscription == "paid") {
+      items = paidpayload;
+    } else {
+      items = freepayload;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

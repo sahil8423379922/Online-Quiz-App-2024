@@ -1,16 +1,22 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:online_quiz_app/constant.dart';
 import 'package:online_quiz_app/dashboard/Account.dart';
 import 'package:online_quiz_app/dashboard/livequiz.dart';
 import 'package:online_quiz_app/dashboard/mocktest.dart';
+import 'package:online_quiz_app/subscription/locked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../auth/Login.dart';
+
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final User user;
+  const Dashboard({super.key, required this.user});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -19,10 +25,17 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  var username = "User";
+  var useremail = 'example@gmail.com';
+  var subscriptionstatus = '';
+  var subscriptiondate = '';
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
+    fetchuserdetails();
+    fetchsubscription();
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -30,6 +43,35 @@ class _DashboardState extends State<Dashboard>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> fetchuserdetails() async {
+    var email = widget.user.email;
+    try {
+      DocumentSnapshot docSnapshot =
+          await firestore.collection('users').doc(email).get();
+
+      if (docSnapshot.exists) {
+        // If the document exists, you can access its data
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        String name = data['name'];
+        String email = data['email'];
+
+        setState(() {
+          username = data['name'];
+          useremail = email;
+        });
+
+        // Print or use the fetched data
+        print('Name: $name, Email: $email');
+      } else {
+        // Document does not exist
+        print('No user found with email: $email');
+      }
+    } catch (e) {
+      // Handle any errors that may occur
+      print('Error fetching data: $e');
+    }
   }
 
   Future<bool> _onWillPop() async {
@@ -60,7 +102,7 @@ class _DashboardState extends State<Dashboard>
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: appbar, // AppBar background color
-          title: const Text("Hi, Sahil Jaiswal"),
+          title: Text("Hi, ${username}"),
           actions: const [
             Padding(
               padding: EdgeInsets.all(8.0),
@@ -110,7 +152,7 @@ class _DashboardState extends State<Dashboard>
                                     SizedBox(
                                       width: double.infinity,
                                       child: Text(
-                                        "Sahil Jaiswal",
+                                        username,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontSize: 28,
@@ -124,7 +166,7 @@ class _DashboardState extends State<Dashboard>
                                     SizedBox(
                                       width: double.infinity,
                                       child: Text(
-                                        "sahilcom2001@gmail.com",
+                                        useremail,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                             fontSize: 15,
@@ -306,7 +348,7 @@ class _DashboardState extends State<Dashboard>
                     width: double.infinity,
                     child: ListTile(
                       onTap: () {
-                        //signOut();
+                        signOut();
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios_rounded,
@@ -359,7 +401,12 @@ class _DashboardState extends State<Dashboard>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [LiveQuiz(), MockTest()],
+          children: [
+            LiveQuiz(subscription: subscriptionstatus, user: widget.user),
+            subscriptionstatus == 'paid'
+                ? MockTest()
+                : Locked(user: widget.user)
+          ],
         ),
         bottomNavigationBar: Container(
           color: appbar, // TabBar background color
@@ -421,5 +468,54 @@ class _DashboardState extends State<Dashboard>
         ),
       ),
     );
+  }
+
+  Future<void> signOut() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      await auth.signOut(); // Sign out from Firebase
+      // Redirect to the Login screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } catch (e) {
+      // Handle any errors here
+      print("Error signing out: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error signing out: $e")),
+      );
+    }
+  }
+
+  Future<void> fetchsubscription() async {
+    var email = widget.user.email;
+    try {
+      DocumentSnapshot docSnapshot =
+          await firestore.collection('subscription').doc(email).get();
+
+      if (docSnapshot.exists) {
+        // If the document exists, you can access its data
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        String status = data['status'];
+
+        //Timestamp date = data['date'];
+        //DateTime dateTime = date.toDate();
+
+        setState(() {
+          subscriptionstatus = status;
+          //subscriptiondate = date;
+        });
+
+        // Print or use the fetched data
+        print('Status: $status');
+      } else {
+        // Document does not exist
+        print('No user found with email: $email');
+      }
+    } catch (e) {
+      // Handle any errors that may occur
+      print('Error fetching data: $e');
+    }
   }
 }
