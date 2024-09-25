@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class Answer extends StatelessWidget {
-  final VoidCallback selectHandler; // More specific type
+  final VoidCallback selectHandler;
   final String answerText;
 
   const Answer(this.selectHandler, this.answerText, {Key? key})
@@ -9,7 +10,15 @@ class Answer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use SizedBox for white space instead of Container
+    FlutterTts flutterTts = FlutterTts();
+
+    // Function to speak the answer text
+    Future<void> _speak() async {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setPitch(1.0);
+      await flutterTts.speak(answerText);
+    }
+
     return SizedBox(
       width: double.infinity,
       child: Padding(
@@ -21,27 +30,39 @@ class Answer extends StatelessWidget {
             borderRadius:
                 BorderRadius.circular(5), // Optional: round the corners
           ),
-          child: TextButton(
-            onPressed: selectHandler, // Pass the function reference directly
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all(0),
-              textStyle: MaterialStateProperty.all(
-                  const TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
-              backgroundColor:
-                  MaterialStateProperty.all(Color.fromARGB(255, 241, 241, 241)),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: 60.0, // Minimum height of the option
             ),
-
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                answerText,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black, fontSize: 16),
+            child: TextButton(
+              onPressed: selectHandler,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 241, 241, 241)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        answerText,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 16),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.volume_up, color: Colors.black),
+                      onPressed: _speak, // Speak the text when icon is clicked
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-    ); // SizedBox
+    );
   }
 }

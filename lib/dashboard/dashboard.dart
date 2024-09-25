@@ -184,36 +184,37 @@ class _DashboardState extends State<Dashboard>
                     ),
                   )),
                 ),
-                SizedBox(
-                    height: 70,
-                    width: double.infinity,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Account(),
-                          ));
-                        });
-                      },
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.grey[150],
-                      ),
-                      subtitle: Text("User Account Details"),
-                      leading: Icon(
-                        Icons.person_outline,
-                        size: 28,
-                        color: Colors.grey[150],
-                      ),
-                      title: Text(
-                        "Account",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "arial",
-                            color: Color.fromARGB(255, 49, 49, 49),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
+                // SizedBox(
+                //     height: 70,
+                //     width: double.infinity,
+                //     child: ListTile(
+                //       onTap: () {
+                //         setState(() {
+                //           Navigator.of(context).push(MaterialPageRoute(
+                //             builder: (context) => Account(),
+                //           ));
+                //         });
+                //       },
+                //       trailing: Icon(
+                //         Icons.arrow_forward_ios_rounded,
+                //         color: Colors.grey[150],
+                //       ),
+                //       subtitle: Text("User Account Details"),
+                //       leading: Icon(
+                //         Icons.person_outline,
+                //         size: 28,
+                //         color: Colors.grey[150],
+                //       ),
+                //       title: Text(
+                //         "Account",
+                //         style: TextStyle(
+                //             fontSize: 16,
+                //             fontFamily: "arial",
+                //             color: Color.fromARGB(255, 49, 49, 49),
+                //             fontWeight: FontWeight.bold),
+                //       ),
+                //     )),
+
                 SizedBox(
                     height: 70,
                     width: double.infinity,

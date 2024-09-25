@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:online_quiz_app/quiz/quiz.dart';
 import 'package:online_quiz_app/quiz/result.dart';
 
@@ -12,7 +10,7 @@ class QuizHome extends StatefulWidget {
 }
 
 class _QuizHomeState extends State<QuizHome> {
-  //basic questions
+  // Basic questions
   final _questions = const [
     {
       'questionText':
@@ -48,7 +46,7 @@ class _QuizHomeState extends State<QuizHome> {
     },
     {
       'questionText':
-          'Is the statement below TRUE or FALSE?When Queen Anne died, a German, George of Hanover, became the next King of England.',
+          'Is the statement below TRUE or FALSE? When Queen Anne died, a German, George of Hanover, became the next King of England.',
       'answers': [
         {'text': 'TRUE', 'score': 10},
         {'text': 'FALSE', 'score': -2},
@@ -68,27 +66,30 @@ class _QuizHomeState extends State<QuizHome> {
 
   var _questionIndex = 0;
   var _totalScore = 0;
+  var _correctAnswers = 0;
 
   void _resetQuiz() {
     setState(() {
       _questionIndex = 0;
       _totalScore = 0;
+      _correctAnswers = 0;
     });
   }
 
   void _answerQuestion(int score) {
+    // Track correct answers (assuming positive scores indicate correct answers)
+    if (score > 0) {
+      _correctAnswers++;
+    }
     _totalScore += score;
 
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-    // ignore: avoid_print
     print(_questionIndex);
     if (_questionIndex < _questions.length) {
-      // ignore: avoid_print
       print('We have more questions!');
     } else {
-      // ignore: avoid_print
       print('No more questions!');
     }
   }
@@ -96,19 +97,21 @@ class _QuizHomeState extends State<QuizHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Question 1 of 24',
-          style: TextStyle(color: Colors.black, fontFamily: 'arial'),
-        ),
-        elevation: 0,
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(
-              255, 0, 0, 0), // Set the color of the back arrow here
-        ),
-      ),
-
+      appBar: _questionIndex < _questions.length
+          ? AppBar(
+              title: Text(
+                'Question ${_questionIndex + 1} of ${_questions.length}',
+                style:
+                    const TextStyle(color: Colors.black, fontFamily: 'arial'),
+              ),
+              elevation: 0,
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+              iconTheme: const IconThemeData(
+                color: Color.fromARGB(
+                    255, 0, 0, 0), // Set the color of the back arrow here
+              ),
+            )
+          : null, // Hide AppBar when all questions are answered
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
@@ -117,12 +120,15 @@ class _QuizHomeState extends State<QuizHome> {
                   answerQuestion: _answerQuestion,
                   questionIndex: _questionIndex,
                   questions: _questions,
-                ) //Quiz
-              : Result(_totalScore, _resetQuiz),
+                ) // Quiz
+              : Result(
+                  _totalScore,
+                  _resetQuiz,
+                  correctAnswers: _correctAnswers,
+                  length: _questions.length,
+                ), // Pass total and correct questions
         ),
-      ), //Padding
-    ); //Scaffold
-
-    ;
+      ), // Padding
+    ); // Scaffold
   }
 }

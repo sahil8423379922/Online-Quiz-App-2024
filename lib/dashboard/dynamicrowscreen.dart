@@ -96,10 +96,27 @@ class _DynamicRowScreenState extends State<DynamicRowScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setItems();
+    // Initialize items based on the subscription
+    // if (widget.subscription == "paid") {
+    //   items = paidpayload;
+    // } else {
+    //   items = freepayload;
+    // }
+
+    // // Ensure the UI reflects this change
+    // setState(() {});
+  }
+
+  void setItems() {
     if (widget.subscription == "paid") {
-      items = paidpayload;
+      setState(() {
+        items = paidpayload;
+      });
     } else {
-      items = freepayload;
+      setState(() {
+        items = freepayload;
+      });
     }
   }
 
