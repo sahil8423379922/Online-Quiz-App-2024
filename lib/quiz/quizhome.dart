@@ -15,54 +15,53 @@ class _QuizHomeState extends State<QuizHome> {
   //basic questions
   final _questions = const [
     {
-      'questionText': 'Q1. Who created Flutter?',
+      'questionText':
+          'Which TWO of the following are freedoms offered to citizens and permanent residents of the UK?',
       'answers': [
-        {'text': 'Facebook', 'score': -2},
-        {'text': 'Adobe', 'score': -2},
-        {'text': 'Google', 'score': 10},
-        {'text': 'Microsoft', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q2. What is Flutter?',
-      'answers': [
-        {'text': 'Android Development Kit', 'score': -2},
-        {'text': 'IOS Development Kit', 'score': -2},
-        {'text': 'Web Development Kit', 'score': -2},
+        {'text': 'Free heating for all', 'score': -2},
         {
-          'text':
-              'SDK to build beautiful IOS, Android, Web & Desktop Native Apps',
-          'score': 10
+          'text': 'A right to take part in the election of a government',
+          'score': -2
         },
+        {'text': 'Half day off work on Friday', 'score': 10},
+        {'text': 'Freedom of speech', 'score': -2},
       ],
     },
     {
-      'questionText': ' Q3. Which programming language is used by Flutter',
+      'questionText': 'What is a fundamental principle of British life?',
       'answers': [
-        {'text': 'Ruby', 'score': -2},
-        {'text': 'Dart', 'score': 10},
-        {'text': 'C++', 'score': -2},
-        {'text': 'Kotlin', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q4. Who created Dart programming language?',
-      'answers': [
-        {'text': 'Lars Bak and Kasper Lund', 'score': 10},
-        {'text': 'Brendan Eich', 'score': -2},
-        {'text': 'Bjarne Stroustrup', 'score': -2},
-        {'text': 'Jeremy Ashkenas', 'score': -2},
+        {'text': 'Democracy', 'score': -2},
+        {'text': 'A relaxed work ethic', 'score': -2},
+        {'text': 'Religious faith', 'score': -2},
+        {'text': 'Extremism ', 'score': 10},
       ],
     },
     {
       'questionText':
-          'Q5. Is Flutter for Web and Desktop available in stable version?',
+          'What were the names of the TWO main groups in parliament in the early 18th century?',
       'answers': [
-        {
-          'text': 'Yes',
-          'score': -2,
-        },
-        {'text': 'No', 'score': 10},
+        {'text': 'Labour', 'score': -2},
+        {'text': 'Tories', 'score': 10},
+        {'text': 'Nationalists', 'score': -2},
+        {'text': 'Whigs', 'score': -2},
+      ],
+    },
+    {
+      'questionText':
+          'Is the statement below TRUE or FALSE?When Queen Anne died, a German, George of Hanover, became the next King of England.',
+      'answers': [
+        {'text': 'TRUE', 'score': 10},
+        {'text': 'FALSE', 'score': -2},
+      ],
+    },
+    {
+      'questionText':
+          'Which TWO wars was England involved in during the Middle Ages?',
+      'answers': [
+        {'text': 'Peninsular', 'score': 10},
+        {'text': 'Hundred Years War', 'score': -2},
+        {'text': 'Crimean', 'score': -2},
+        {'text': 'Crusades', 'score': -2},
       ],
     },
   ];
@@ -98,9 +97,18 @@ class _QuizHomeState extends State<QuizHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Geeks for Geeks'),
-        backgroundColor: const Color(0xFF00E676),
+        title: const Text(
+          'Question 1 of 24',
+          style: TextStyle(color: Colors.black, fontFamily: 'arial'),
+        ),
+        elevation: 0,
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(
+              255, 0, 0, 0), // Set the color of the back arrow here
+        ),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
